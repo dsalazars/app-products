@@ -1,10 +1,13 @@
+import { useEffect } from 'react';
 import { FlatList, ActivityIndicator, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useProducts } from '../hooks/useProduct';
 import { ProductCard } from '../components/ProductCard';
+import { useFavoritesStore } from '../../store/favoriteStore';
 
 export const ProductsScreen = () => {
   const { products, error, loading } = useProducts();
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
