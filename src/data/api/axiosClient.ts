@@ -1,6 +1,6 @@
 import axios from 'axios';
 
 export const axiosClient = axios.create({
-  baseURL: 'https://dummyapi.io/data/v1/',
+  baseURL: 'https://dummyjson.com/',
   timeout: 5000,
 });
