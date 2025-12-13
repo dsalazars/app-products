@@ -8,5 +8,5 @@ export const getProducts = async () => {
 
 export const getProductById = async (id: string) => {
   const response = await axiosClient.get(`product/${id}`);
-  return response;
+  return response.data;
 }
