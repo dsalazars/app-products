@@ -1,5 +1,6 @@
 import { FlatList, ActivityIndicator, Text, View, StyleSheet } from 'react-native';
 
+
 export const FavoritesScreen = () => {
   return (
     <View style={styles.container}>
