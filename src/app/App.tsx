@@ -1,27 +1,19 @@
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
-import { ProductsScreen } from '../presentation/screens/ProductsScreen';
+// src/app/App.tsx
+import React, { useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { RootStack } from './navigation/RootStack';
+import { useFavoritesStore } from '../store/favoriteStore';
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+export default function App() {
+  const loadFavorites = useFavoritesStore(state => state.loadFavorites);
+
+  useEffect(() => {
+    loadFavorites();
+  }, [loadFavorites]);
 
   return (
-    <SafeAreaProvider>
-      <View style={styles.container}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <ProductsScreen />
-      </View>
-    </SafeAreaProvider>
+    <NavigationContainer>
+      <RootStack />
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-
-export default App;
