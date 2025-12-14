@@ -4,14 +4,15 @@ import { useFavoritesStore } from '../../store/favoriteStore';
 
 interface Props {
   product: Product;
+  onPress?: () => void;
 }
 
-export const ProductCard = ({ product }: Props) => {
+export const ProductCard = ({ product, onPress }: Props) => {
   const isFavorite = useFavoritesStore(state => state.isFavorite(product.id));
   const toggleFavorite = useFavoritesStore(state => state.toggleFavorite);
 
   return (
-    <View style={styles.card}>
+    <Pressable onPress={onPress} style={styles.card}>
       <Image
         source={{ uri: product.images[0] }}
         style={styles.image}
@@ -30,7 +31,7 @@ export const ProductCard = ({ product }: Props) => {
           {product.description}
         </Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
