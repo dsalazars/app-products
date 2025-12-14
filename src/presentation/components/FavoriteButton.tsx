@@ -1,4 +1,3 @@
-import React from 'react';
 import { Pressable, StyleSheet, StyleProp, ViewStyle } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Product } from '../../domain/entities/Product';
