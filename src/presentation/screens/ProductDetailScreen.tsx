@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ActivityIndicator, Text, View, StyleSheet, Image, ScrollView, FlatList, Dimensions, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../../app/navigation/RootStack';
 import { useProduct } from '../hooks/useProduct';
 import { ProductInfo } from '../components/ProductInfo';
+
 
 const { width } = Dimensions.get('window');
 
@@ -11,6 +12,12 @@ export const ProductDetailScreen = () => {
   const { params } = useRoute<RouteProp<RootStackParamList, 'ProductDetail'>>();
   const { product, loading, error } = useProduct(params.id);
   const [activeIndex, setActiveIndex] = useState(0);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({ title: 'Detalle del Producto' });
+  }, []);
+
 
   if (loading) {
     return (
@@ -49,17 +56,20 @@ export const ProductDetailScreen = () => {
             <Image source={{ uri: item }} style={styles.image} resizeMode="contain" />
           )}
         />
-        <View style={styles.pagination}>
-          {product.images.map((_, index) => (
-            <View
-              key={index}
-              style={[
-                styles.dot,
-                index === activeIndex ? styles.activeDot : null
-              ]}
-            />
-          ))}
-        </View>
+        {
+          product.images.length > 1 &&
+          <View style={styles.pagination}>
+            {product.images.map((_, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.dot,
+                  index === activeIndex ? styles.activeDot : null
+                ]}
+              />
+            ))}
+          </View>
+        }
       </View>
 
       <ProductInfo product={product} />

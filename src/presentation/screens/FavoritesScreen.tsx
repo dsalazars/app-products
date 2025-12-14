@@ -1,13 +1,19 @@
+import { useEffect } from 'react';
 import { FlatList, Text, View, StyleSheet } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { useFavoritesStore } from '../../store/favoriteStore';
 import { ProductCard } from '../components/ProductCard';
 import { RootStackParamList } from '../../app/navigation/RootStack';
+import { EmptyState } from '../components/EmptyState';
 
 
 export const FavoritesScreen = () => {
   const favorites = useFavoritesStore(state => state.favorites);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  useEffect(() => {
+    navigation.setOptions({ title: 'Favoritos' });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -19,8 +25,9 @@ export const FavoritesScreen = () => {
             onPress={() => navigation.navigate('ProductDetail', { id: item.id })}
           />
         )}
+        contentContainerStyle={{ flexGrow: 1 }}
         keyExtractor={item => item.id.toString()}
-        ListEmptyComponent={() => <Text style={styles.title}>No tienes favoritos agregados</Text>}
+        ListEmptyComponent={() => <EmptyState text="No tienes favoritos agregados" />}
       />
     </View>
   )
@@ -31,10 +38,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f1eef1ff'
-  },
-  title: {
-    textAlign: 'center',
-    marginTop: 20,
-    fontSize: 18
   }
 })

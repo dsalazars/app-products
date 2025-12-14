@@ -1,29 +1,24 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Product } from '../../domain/entities/Product';
-import { useFavoritesStore } from '../../store/favoriteStore';
+import { FavoriteButton } from './FavoriteButton';
+
 
 interface Props {
   product: Product;
 }
 
 export const ProductInfo = ({ product }: Props) => {
-  const isFavorite = useFavoritesStore(state => state.isFavorite(product.id));
-  const toggleFavorite = useFavoritesStore(state => state.toggleFavorite);
-
   return (
     <View style={styles.infoContainer}>
       <View style={styles.headerContainer}>
         <Text style={styles.title}>{product.title}</Text>
-        <TouchableOpacity
-          onPress={() => toggleFavorite(product)}
-          style={styles.favoriteButton}
-        >
-          <Text style={styles.favoriteIcon}>{isFavorite ? '❤️' : '🖤'}</Text>
-        </TouchableOpacity>
+        <FavoriteButton product={product} style={styles.favoriteButton} />
       </View>
       <Text style={styles.price}>$ {product.price}</Text>
       <Text style={styles.sectionTitle}>Descripción</Text>
       <Text style={styles.description}>{product.description}</Text>
+      <Text style={styles.rating}>Clasificación: {product.rating}</Text>
+      <Text style={styles.category}>Categoría: {product.category}</Text>
     </View>
   );
 };
@@ -35,7 +30,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     marginHorizontal: 20,
     marginBottom: 20,
-    marginTop: -20,
+    marginTop: 0,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -63,9 +58,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginLeft: 10,
   },
-  favoriteIcon: {
-    fontSize: 20,
-  },
   sectionTitle: {
     fontSize: 16,
     fontWeight: '600',
@@ -82,5 +74,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#666',
     lineHeight: 24,
+  },
+  rating: {
+    fontSize: 18,
+    color: '#666',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  category: {
+    fontSize: 18,
+    fontWeight: '400',
+    color: '#666',
+    marginBottom: 10,
   },
 });
