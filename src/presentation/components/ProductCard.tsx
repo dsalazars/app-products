@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { View, Text, Image, StyleSheet, Pressable, Animated } from 'react-native';
 import { Product } from '../../domain/entities/Product';
-import { useFavoritesStore } from '../../store/favoriteStore';
+import { FavoriteButton } from './FavoriteButton';
 
 interface Props {
   product: Product;
@@ -11,8 +11,6 @@ interface Props {
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export const ProductCard = ({ product, onPress }: Props) => {
-  const isFavorite = useFavoritesStore(state => state.isFavorite(product.id));
-  const toggleFavorite = useFavoritesStore(state => state.toggleFavorite);
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
   const onPressIn = () => {
@@ -25,7 +23,7 @@ export const ProductCard = ({ product, onPress }: Props) => {
   const onPressOut = () => {
     Animated.spring(scaleAnim, {
       toValue: 1,
-      friction: 4, // Controla el rebote (menor número = más rebote)
+      friction: 4,
       useNativeDriver: true,
     }).start();
   };
@@ -42,12 +40,7 @@ export const ProductCard = ({ product, onPress }: Props) => {
         style={styles.image}
         resizeMode="contain"
       />
-      <Pressable
-        onPress={() => toggleFavorite(product)}
-        style={styles.favoriteButton}
-      >
-        <Text>{isFavorite ? '❤️' : '🖤'}</Text>
-      </Pressable>
+      <FavoriteButton product={product} style={styles.favoriteButton} />
       <View style={styles.infoContainer}>
         <Text style={styles.title}>{product.title}</Text>
         <Text style={styles.price}>${product.price}</Text>
@@ -103,7 +96,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: '#f0f0f0',
     borderRadius: 20,
     padding: 5,
   },
