@@ -1,4 +1,5 @@
-import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
+import { useRef } from 'react';
+import { View, Text, Image, StyleSheet, Pressable, Animated } from 'react-native';
 import { Product } from '../../domain/entities/Product';
 import { useFavoritesStore } from '../../store/favoriteStore';
 
@@ -7,12 +8,35 @@ interface Props {
   onPress?: () => void;
 }
 
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
 export const ProductCard = ({ product, onPress }: Props) => {
   const isFavorite = useFavoritesStore(state => state.isFavorite(product.id));
   const toggleFavorite = useFavoritesStore(state => state.toggleFavorite);
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  const onPressIn = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 0.95,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const onPressOut = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      friction: 4, // Controla el rebote (menor número = más rebote)
+      useNativeDriver: true,
+    }).start();
+  };
 
   return (
-    <Pressable onPress={onPress} style={styles.card}>
+    <AnimatedPressable
+      onPress={onPress}
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
+      style={[styles.card, { transform: [{ scale: scaleAnim }] }]}
+    >
       <Image
         source={{ uri: product.images[0] }}
         style={styles.image}
@@ -31,7 +55,7 @@ export const ProductCard = ({ product, onPress }: Props) => {
           {product.description}
         </Text>
       </View>
-    </Pressable>
+    </AnimatedPressable>
   );
 };
 
