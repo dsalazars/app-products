@@ -5,6 +5,7 @@ import { RootStackParamList } from '../../app/navigation/RootStack';
 import { useProduct } from '../hooks/useProduct';
 import { ProductInfo } from '../components/ProductInfo';
 
+
 const { width } = Dimensions.get('window');
 
 export const ProductDetailScreen = () => {

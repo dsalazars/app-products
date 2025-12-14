@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { RootStack } from './navigation/RootStack';
 import { useFavoritesStore } from '../store/favoriteStore';
