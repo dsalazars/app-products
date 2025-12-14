@@ -24,6 +24,9 @@ export const ProductInfo = ({ product }: Props) => {
       <Text style={styles.price}>$ {product.price}</Text>
       <Text style={styles.sectionTitle}>Descripción</Text>
       <Text style={styles.description}>{product.description}</Text>
+      <Text style={styles.rating}>Clasificación: {product.rating}</Text>
+      <Text style={styles.category}>Categoría: {product.category}</Text>
+
     </View>
   );
 };
@@ -35,7 +38,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     marginHorizontal: 20,
     marginBottom: 20,
-    marginTop: -20,
+    marginTop: 0,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -82,5 +85,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#666',
     lineHeight: 24,
+  },
+  rating: {
+    fontSize: 18,
+    color: '#666',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  category: {
+    fontSize: 18,
+    fontWeight: '400',
+    color: '#666',
+    marginBottom: 10,
   },
 });
