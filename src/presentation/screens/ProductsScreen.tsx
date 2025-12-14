@@ -1,29 +1,33 @@
-import { useEffect } from 'react';
-import { FlatList, ActivityIndicator, Text, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { FlatList, ActivityIndicator, Text, StyleSheet, View } from 'react-native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { useProducts } from '../hooks/useProduct';
 import { ProductCard } from '../components/ProductCard';
-import { useFavoritesStore } from '../../store/favoriteStore';
+import { RootStackParamList } from '../../app/navigation/RootStack';
 
 export const ProductsScreen = () => {
   const { products, error, loading } = useProducts();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <FlatList
         data={products}
-        renderItem={({ item }) => <ProductCard product={item} />}
+        renderItem={({ item }) => (
+          <ProductCard
+            product={item}
+            onPress={() => navigation.navigate('ProductDetail', { id: item.id })}
+          />
+        )}
         keyExtractor={item => item.id.toString()}
         ListEmptyComponent={() => <Text style={{ textAlign: 'center', marginTop: 20, fontSize: 18 }}>No hay productos disponibles</Text>}
       />
       {error && <Text style={{ color: 'red', textAlign: 'center', marginTop: 20 }}>Error: {typeof error === 'object' ? JSON.stringify(error) : error}</Text>}
       {loading && <ActivityIndicator size="large" color="#0000ff" style={{ position: 'absolute', top: '50%', left: '50%' }} />}
 
-    </SafeAreaView>
+    </View>
   );
 };
 
-// ... estilos sin cambios, pero container con flex: 1
 const styles = StyleSheet.create({
   container: {
     flex: 1,
