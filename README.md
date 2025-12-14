@@ -33,17 +33,6 @@ Para ejecutar este proyecto, asegúrate de tener configurado tu entorno de desar
     cd ..
     ```
 
-## ⚙️ Configuración de Variables de Entorno
-
-El proyecto utiliza variables de entorno. Crea un archivo `.env` en la raíz del proyecto con el siguiente contenido:
-
-```env
-API_URL=https://dummyjson.com/
-FAVORITES_KEY=FAVORITES
-```
-
-> **Nota:** Si modificas el archivo `.env`, recuerda reiniciar el servidor Metro con `npm start -- --reset-cache` para que tome los cambios.
-
 ## 📱 Ejecutar la Aplicación
 
 Para correr la aplicación necesitas dos terminales:
